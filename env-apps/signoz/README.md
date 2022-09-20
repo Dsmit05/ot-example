@@ -1,4 +1,3 @@
 # SigNoz
 
-После того как вы перейдете на ui по `http://localhost:3301/`, нужно будет зарегестрироваться
-это создаст администратора в системе.
+After you switch to the UI by `http://localhost:3301`, you will need to register this will create an administrator in the system.
