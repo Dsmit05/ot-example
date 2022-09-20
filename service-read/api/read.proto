@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package api;
+option go_package = "github.com/Dsmit05/ot-example/service-read/pkg/api";
+
+import "api/google/api/annotations.proto";
+import "api/google/api/field_behavior.proto";
+
+service MsgReader {
+  rpc ReadMsg(ReadMsgRequest) returns (ReadMsgResponse) {
+    option (google.api.http) = {
+      get: "/msg/{id}"
+    };
+  }
+}
+
+message ReadMsgRequest {
+  // msg id
+  int64 id = 1 [(google.api.field_behavior) = REQUIRED];
+}
+
+message ReadMsgResponse {
+  // msg id
+  int64 id = 1;
+
+  // msg text
+  string msg = 2;
+}

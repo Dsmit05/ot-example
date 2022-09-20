@@ -1,0 +1,9 @@
+go 1.19
+
+use (
+	service-main
+	service-read
+	service-write
+	tracer
+	utils
+)

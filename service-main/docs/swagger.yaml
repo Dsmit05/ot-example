@@ -1,0 +1,71 @@
+definitions:
+  models.Message:
+    properties:
+      id:
+        example: 1
+        type: integer
+      msg:
+        example: any text
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: starting point server
+  title: service-main
+  version: 1.0.0
+paths:
+  /msg:
+    post:
+      consumes:
+      - application/json
+      description: put msg in write service
+      operationId: write-msg
+      parameters:
+      - description: credentials
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.Message'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: error
+          schema:
+            type: string
+      summary: WriteMsg
+      tags:
+      - msg
+  /msg/{id}:
+    get:
+      consumes:
+      - application/json
+      description: get msg from read service
+      operationId: get-msg
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Message'
+        "400":
+          description: error
+          schema:
+            type: string
+      summary: ReadMsg
+      tags:
+      - msg
+swagger: "2.0"

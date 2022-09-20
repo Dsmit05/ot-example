@@ -1,0 +1,2 @@
+### GET request in service read
+GET http://localhost:9081/msg/1

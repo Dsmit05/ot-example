@@ -1,0 +1,5 @@
+*.exe
+*.exe~
+
+/.idea/
+/env-apps/signoz/data
