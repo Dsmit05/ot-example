@@ -7,6 +7,8 @@
 
 Проект выполнен в двух вариациях зависимых от использованного брокера сообщений.
 
+![диаграмма компонентов](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/Dsmit05/ot-example/main/components.plantuml)
+
 ### Пример запуска:
 
 1. Поднимите инструмент мониторинга SigNoz:

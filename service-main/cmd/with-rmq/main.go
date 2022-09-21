@@ -35,7 +35,7 @@ func main() {
 
 	producer, err := rmq.NewProducer("amqp://guest:guest@localhost:5672/", "msgs")
 	if err != nil {
-		log.Fatalf("kfk.NewProducer() error: %v", err)
+		log.Fatalf("rmq.NewProducer() error: %v", err)
 	}
 
 	grpcCli, err := clir.NewClient(cfg.ServiceReadURL)

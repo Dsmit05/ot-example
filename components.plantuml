@@ -1,0 +1,40 @@
+@startuml
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!define DEVICONS https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/devicons
+!include DEVICONS/go.puml
+!include DEVICONS/postgresql.puml
+HIDE_STEREOTYPE()
+
+AddRelTag("otc", $textColor="green", $lineColor="green", $lineStyle = DashedLine())
+AddRelTag("sr", , $lineColor="brown")
+AddRelTag("sw", , $lineColor="green", $lineStyle = DashedLine())
+AddElementTag("otc_el", $bgColor="green")
+
+Container(sm, "service-main", "go", "" ,"go")
+Container(sr, "service-read", "go", ,"go")
+Container(sw, "service-write", "go", ,"go")
+ContainerDb(dbp, "postgre", "postgresql", ,"postgresql")
+Container(broker, "broker", , "RabbitMQ or Kafka")
+System_Boundary(signoz,"SigNoz") {
+    Container(otc, "otel collector",,"сборщик OpenTelemetry", $tags="otc_el")
+    ContainerDb(dbch, "ClickHouse",,, $tags="otc_el")
+    Container(qs, "query-service",,, $tags="otc_el")
+    Container(front, "frontend",,, $tags="otc_el")
+}
+
+Rel_D(sm,otc,"traces","otlp", $tags="otc")
+Rel(sm,sr,"id","gRPC", $tags="sr")
+Rel_R(sm,broker,"id,msg")
+Rel(sr,otc,"traces","otlp", $tags="otc")
+Rel_R(sr,dbp,"id", $tags="sr")
+Rel_R(dbp,sr,"id,msg", $tags="sr")
+Rel(broker,sw,"id,msg")
+Rel(sw,dbp,"id,msg")
+Rel(sw,otc,"traces","otlp", $tags="otc")
+
+Rel_D(otc,dbch," ")
+Rel_R(dbch,qs," ")
+Rel_L(front,qs," ")
+
+@enduml
