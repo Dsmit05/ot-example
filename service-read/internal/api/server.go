@@ -16,6 +16,8 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 )
 
+const SwaggerDir = "./swagger"
+
 type Server struct {
 	grpcServer *grpc.Server
 	httpServer *http.Server
@@ -54,10 +56,20 @@ func (s *Server) StartHTTP(addrHTTP, addrGRPC string) error {
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
-	mux := runtime.NewServeMux()
+	// gRPC Gateway mux
+	gwmux := runtime.NewServeMux()
+
+	// Serve the swagger-ui and swagger file
+	mux := http.NewServeMux()
+	mux.Handle("/", gwmux)
+
+	// Register Swagger Handler
+	fs := http.FileServer(http.Dir(SwaggerDir))
+	mux.Handle("/swagger/", http.StripPrefix("/swagger/", fs))
+
 	opts := []grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}
 
-	err := pb.RegisterMsgReaderHandlerFromEndpoint(ctx, mux, addrGRPC, opts)
+	err := pb.RegisterMsgReaderHandlerFromEndpoint(ctx, gwmux, addrGRPC, opts)
 	if err != nil {
 		return errors.Wrap(err, "RegisterMsgReaderHandlerFromEndpoint() error")
 	}

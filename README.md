@@ -19,7 +19,7 @@
   <summary>endpoint this project</summary>
 
 1. http://localhost:8080/swagger/index.html - service main swagger
-2. http://localhost:9081/msg/{id} - service read http route
+2. http://localhost:9081/swagger/ - service read swagger
 3. http://localhost:9080 - service read grpc route
 4. http://localhost:3301 - SigNoz ui
 5. jdbc:postgresql://localhost:5432/example - database
